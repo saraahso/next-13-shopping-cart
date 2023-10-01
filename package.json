@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^2.1.6",
+    "next": "^13.5.3",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "stripe": "^13.8.0"
   },
   "devDependencies": {
     "typescript": "latest",
