@@ -3,6 +3,7 @@ import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import React, {Suspense} from "react";
 import Navbar from "@/components/navbar";
+import CartProvider from "@/components/provider";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -13,13 +14,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children,}: { children: React.ReactNode }) {
     return (
+
         <html lang="en">
         <body className={inter.className}>
-        <Navbar/>
-        <Suspense>
-            <main>{children}</main>
-        </Suspense>
+        <CartProvider>
+            <Navbar/>
+            <Suspense>
+                <main>{children}</main>
+            </Suspense>
+        </CartProvider>
         </body>
         </html>
+
     )
 }
+
+
