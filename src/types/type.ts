@@ -7,10 +7,11 @@ export type CartItem = {
 }
 
 export type Product = {
-    id: number;
+    id: string;
     name: string;
     href: string;
     price: string;
+    currency: string;
     imageSrc: string;
     imageAlt: string;
 }
