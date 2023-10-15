@@ -8,7 +8,7 @@ type Props = {
 
 export default function ProductCard({product}: Props) {
     return (
-        <a key={product.id} href={product.href} className="group">
+        <a key={product.id} href="#" className="group">
             <div
                 className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                 <Image
@@ -20,7 +20,10 @@ export default function ProductCard({product}: Props) {
                 />
             </div>
             <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-            <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
+            <p className="mt-1 text-lg font-medium text-gray-900">{new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(product.price / 100)}</p>
             <AddToCart product={product}/>
         </a>
     )

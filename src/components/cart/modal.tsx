@@ -3,10 +3,13 @@
 import {Fragment, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import OpenCart from "@/components/cart/open-cart";
-import {XMarkIcon} from "@heroicons/react/24/outline";
+import {ShoppingCartIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {formatCurrencyString, useShoppingCart} from "use-shopping-cart";
+import CartItem from "@/components/cart/cart-item";
 
 export default function CartModal() {
     const [openCart, setOpenCart] = useState(false)
+    const {cartCount, cartDetails, totalPrice} = useShoppingCart();
     return <>
         <button aria-label="Open cart" onClick={() => setOpenCart(true)}>
             <OpenCart/>
@@ -56,10 +59,21 @@ export default function CartModal() {
                                                 </div>
                                             </div>
 
-                                            <div className="mt-8">
+                                            <div className="mt-10">
                                                 <div className="flow-root">
-                                                    <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                        {/* Items*/}
+                                                    <ul role="list"
+                                                        className="grid grid-cols-1 divide-y divide-gray-200">
+                                                        {cartCount && cartCount > 0
+                                                            ? Object.values(cartDetails ?? {}).map((item) => (
+                                                                <CartItem key={item.id} item={item}/>
+                                                            ))
+                                                            : <div
+                                                                className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
+                                                                <ShoppingCartIcon className="h-16"/>
+                                                                <p className="mt-6 text-center text-2xl font-bold">Your
+                                                                    cart is empty.</p>
+                                                            </div>
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>
@@ -68,7 +82,7 @@ export default function CartModal() {
                                         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                                             <div className="flex justify-between text-base font-medium text-gray-900">
                                                 <p>Subtotal</p>
-                                                <p>$262.00</p>
+                                                <p>{formatCurrencyString({value: totalPrice || 0, currency: "USD"})}</p>
                                             </div>
                                             <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at
                                                 checkout.</p>

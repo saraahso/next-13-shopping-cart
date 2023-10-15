@@ -9,7 +9,7 @@ type Props = {
 }
 
 enum Action {
-    Add,
+    Increment,
     Decrement
 }
 
@@ -18,16 +18,9 @@ export default function AddToCart({product}: Props) {
     const [quantity, setQuantity] = useState(1);
     const {addItem} = useShoppingCart();
 
-    const handleAddToCartButton = () => {
-        startTransition(() => {
-            // @ts-ignore
-            addItem(product, {count: quantity})
-        })
-    }
-
     const handleQuantity = (action: Action) => {
         switch (action) {
-            case Action.Add:
+            case Action.Increment:
                 if (quantity >= 10) return;
                 setQuantity(quantity + 1)
                 break;
@@ -62,7 +55,7 @@ export default function AddToCart({product}: Props) {
                 <button
                     data-action="increment"
                     className="h-full w-20 cursor-pointer py-3"
-                    onClick={() => handleQuantity(Action.Add)}
+                    onClick={() => handleQuantity(Action.Increment)}
                     aria-label={`Add one ${product.name} to your cart`}
                 >
                     <span className="m-auto text-base">+</span>
@@ -70,7 +63,7 @@ export default function AddToCart({product}: Props) {
             </div>
             <button aria-label="Add item to cart" title="Add Item to Cart" disabled={isPending}
                     className='w-full border mt-4 py-2 px-8 rounded-lg hover:bg-black hover:text-white'
-                    onClick={() => handleAddToCartButton}><span>Add To Cart</span></button>
+                    onClick={() => addItem(product, {count: quantity})}><span>Add To Cart</span></button>
         </>
     )
 }

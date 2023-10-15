@@ -13,9 +13,9 @@ export default function CartProvider({children}: Props) {
         <USCProvider
             // @ts-ignore
             mode="payment"
-            cartMode={"checkout-session"}
+            cartMode="checkout-session"
             stripe={process.env.NEXT_PUBLIC_TEST_STRIPE_PUBLISHABLE_KEY as string}
-            currency={'USD'}
+            currency={'EUR'}
             successUrl={'https://example.com/success'}
             cancelUrl={'https://example.com/cancel'}
             allowedCountries={['US', 'GB', 'CA']}

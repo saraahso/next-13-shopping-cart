@@ -1,6 +1,6 @@
 export type CartItem = {
     id: string;
-    title: string;
+    name: string;
     price: number;
     currency: string;
     quantity: number;
@@ -9,8 +9,7 @@ export type CartItem = {
 export type Product = {
     id: string;
     name: string;
-    href: string;
-    price: string;
+    price: number;
     currency: string;
     imageSrc: string;
     imageAlt: string;
