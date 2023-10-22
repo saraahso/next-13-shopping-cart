@@ -6,10 +6,19 @@ import OpenCart from "@/components/cart/open-cart";
 import {ShoppingCartIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import {formatCurrencyString, useShoppingCart} from "use-shopping-cart";
 import CartItem from "@/components/cart/cart-item";
+import CheckoutButton from "@/components/cart/checkout";
 
 export default function CartModal() {
     const [openCart, setOpenCart] = useState(false)
-    const {cartCount, cartDetails, totalPrice} = useShoppingCart();
+    const {cartCount, cartDetails, totalPrice, redirectToCheckout} = useShoppingCart();
+
+    const renderCartMessages = (text: string) => {
+        return <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
+            <ShoppingCartIcon className="h-16"/>
+            <p className="mt-6 text-center text-2xl font-bold">{text}</p>
+        </div>
+    }
+
     return <>
         <button aria-label="Open cart" onClick={() => setOpenCart(true)}>
             <OpenCart/>
@@ -67,13 +76,11 @@ export default function CartModal() {
                                                             ? Object.values(cartDetails ?? {}).map((item) => (
                                                                 <CartItem key={item.id} item={item}/>
                                                             ))
-                                                            : <div
-                                                                className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
-                                                                <ShoppingCartIcon className="h-16"/>
-                                                                <p className="mt-6 text-center text-2xl font-bold">Your
-                                                                    cart is empty.</p>
-                                                            </div>
+                                                            : renderCartMessages('Your cart is empty ')
                                                         }
+                                                        {/*{status === 'missing-items' && renderCartMessages('Your cart is empty.\n Add items to proceed to checkout.')}*/}
+
+                                                        {/*{status === 'redirect-error' && renderCartMessages('Unable to redirect to Stripe checkout page.')}*/}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -86,15 +93,10 @@ export default function CartModal() {
                                             </div>
                                             <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at
                                                 checkout.</p>
-                                            <div className="mt-6">
-                                                <a
-                                                    href="#"
-                                                    className="flex items-center justify-center rounded-md border border-transparent bg-sky-900 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-sky-700"
-                                                >
-                                                    Checkout
-                                                </a>
-                                            </div>
-                                            <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+
+                                            <div
+                                                className="mt-6 flex justify-center text-center items-center text-sm text-gray-500">
+                                                <CheckoutButton/>
                                                 <p>
                                                     or
                                                     <button
